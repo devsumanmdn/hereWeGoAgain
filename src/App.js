@@ -37,7 +37,7 @@ class App extends Component {
     for (let i = 0; i < `${ss.bWidth}`; i++) {
       for (let j = 0; j < `${ss.bHeight}`; j++) {
         var t = "T";
-        if (Math.random(1) > 0.85) {
+        if (Math.random(1) > 0.85 && i && j) {
           t = "H";
           no = no + 1;
         }
@@ -51,7 +51,8 @@ class App extends Component {
     }
     this.setState({
       posArray: array,
-      nos: no
+      nos: no,
+      steps: parseFloat(ss.bWidth) + parseFloat(ss.bHeight) + 2 * parseFloat(no)
     });
   }
 
@@ -201,9 +202,9 @@ class App extends Component {
   };
 
   render() {
-    if (this.bWidth) {
+    if (this.bWidth > 0) {
       return (
-        <div className="main">
+        <div className="main" style={{ padding: "10px" }}>
           <div className="Board">
             <p> {`Remaining Steps  : ${this.state.steps}`} </p>
             <p> {`Remaining Mushroom: ${this.state.nos}`} </p>
@@ -229,7 +230,7 @@ class App extends Component {
         </div>
       );
     } else {
-      return <div />;
+      return <div>Refresh this page</div>;
     }
   }
 }
@@ -259,8 +260,9 @@ const Box = props => {
               : props.data.tt + ".jpg"
           }
           alt={props.data.tt}
-          height="40"
-          width="40"
+          height="30"
+          width="30"
+          style={{ padding: "5px" }}
         />
       </span>
     </div>
