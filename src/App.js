@@ -12,8 +12,8 @@ class App extends Component {
       posArray: null
     };
     this.handleKeyPress = this.handleKeyPress.bind(this);
-    // this.getBoardSize = this.getBoardSize.bind(this);
-    // this.generateArray = this.generateArray.bind(this);
+    this.getBoardSize = this.getBoardSize.bind(this);
+    this.generateArray = this.generateArray.bind(this);
   }
 
   componentDidMount() {
@@ -24,12 +24,7 @@ class App extends Component {
   getBoardSize() {
     this.bHeight = prompt("Enter Board Height", "Height");
     this.bWidth = prompt("Enter Board Width", "Width");
-    console.log(this);
-    // this.setState({
-    //   bHeight,
-    //   bWidth
-    // });
-    // let { state } = this;
+
     this.generateArray(this);
   }
 
@@ -39,7 +34,12 @@ class App extends Component {
 
     for (let i = 0; i < `${ss.bWidth}`; i++) {
       for (let j = 0; j < `${ss.bHeight}`; j++) {
-        array.push({ key: key++, left: i, right: j, tt: (Date.now() * 7) % 2 });
+        array.push({
+          key: key++,
+          left: i,
+          right: j,
+          tt: Math.random(1) > 0.8 ? 1 : 0
+        });
       }
     }
     this.setState({
@@ -48,9 +48,8 @@ class App extends Component {
   }
 
   handleKeyPress = event => {
-    console.log(this.state.posArray);
-    let width = this.state.bWidth,
-      height = this.state.bHeight;
+    let width = this.bWidth,
+      height = this.bHeight;
     switch (event.key) {
       case "ArrowLeft":
         let moveLeft = this.state.positionLeft;
@@ -87,19 +86,20 @@ class App extends Component {
 
   render() {
     if (this.bWidth) {
-      console.log(this.state.posArray);
       return (
         <div className="main">
           <div className="Board">
             <p> {`left : ${this.state.positionLeft}`} </p>
             <p> {`top : ${this.state.positionTop}`} </p>
-            <p> {`array : ${this.state.posArray}`} </p>
-            {this.state.posArray
-              ? this.state.posArray.map(box => (
-                  <Box key={box.key} left={box.left} right={box.right} />
-                ))
-              : ""}
-            <Board width={this.state.bWidth} height={this.state.bHeight} />
+            <div
+              style={{ width: this.bWidth * 20, backgroundColor: "#454554" }}
+            >
+              {this.state.posArray
+                ? this.state.posArray.map(box => (
+                    <Box key={box.key} data={box} />
+                  ))
+                : ""}
+            </div>
           </div>
         </div>
       );
@@ -109,19 +109,10 @@ class App extends Component {
   }
 }
 
-const Board = props => {
-  return (
-    <div className="Board">
-      <p> Hello </p>
-      {}
-    </div>
-  );
-};
-
 const Box = props => {
   return (
-    <div className="box">
-      <p>{this.props}</p>
+    <div className="box" style={{ float: "left", width: "20px" }}>
+      <span>{props.data.tt ? "H" : "T"}</span>
     </div>
   );
 };
