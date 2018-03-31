@@ -205,16 +205,14 @@ class App extends Component {
       return (
         <div className="main">
           <div className="Board">
-            <p> {`left : ${this.state.positionLeft}`} </p>
-            <p> {`top : ${this.state.positionTop}`} </p>
             <p> {`Remaining Steps  : ${this.state.steps}`} </p>
-            <p> {`Total Cons  : ${this.state.nos}`} </p>
+            <p> {`Remaining Mushroom: ${this.state.nos}`} </p>
 
             <div
               style={{
                 width: this.bWidth * 42,
                 height: this.bHeight * 42,
-                backgroundColor: "#454554"
+                backgroundColor: "#ffffff"
               }}
             >
               {this.state.posArray
@@ -254,9 +252,16 @@ const Box = props => {
           lineHeight: "40px"
         }}
       >
-        {props.data.left === props.pos[0] && props.data.top === props.pos[1]
-          ? "P"
-          : props.data.tt}
+        <img
+          src={
+            props.data.left === props.pos[0] && props.data.top === props.pos[1]
+              ? "P.jpg"
+              : props.data.tt + ".jpg"
+          }
+          alt={props.data.tt}
+          height="40"
+          width="40"
+        />
       </span>
     </div>
   );
